@@ -25,7 +25,7 @@ Enum CacheType{
 
 Import-LocalizedData -BindingVariable PSModuleCacheResources -FileName PSModuleCache.Resources.psd1 -ErrorAction Stop
 
-New-Variable -Name ActionVersion -Option ReadOnly -Scope Script -Value '6.1'
+New-Variable -Name ActionVersion -Option ReadOnly -Scope Script -Value '6.3'
 
 New-Variable -Name Delimiter -Option ReadOnly -Scope Script -Value '-'
 
@@ -34,8 +34,10 @@ New-Variable -Name Delimiter -Option ReadOnly -Scope Script -Value '-'
 New-Variable -Name RepositoryNames -Option ReadOnly -Scope Script -Value @(Get-PSRepository | Select-Object -ExpandProperty Name)
 New-Variable -Name IsThereOnlyOneRegisteredRepository -Option ReadOnly -Scope Script -Value @($script:RepositoryNames.Count -eq 1)
 
-New-Variable -Name PsWindowsModulePath -Option ReadOnly -Scope Script -Value "$env:ProgramFiles\WindowsPowerShell\Modules"
-New-Variable -Name PsWindowsCoreModulePath -Option ReadOnly -Scope Script -Value "$env:ProgramFiles\PowerShell\Modules"
+#User-scope module paths so Save-Module does not require Administrator privileges.
+New-Variable -Name PsWindowsUserDocuments -Option ReadOnly -Scope Script -Value ([Environment]::GetFolderPath('MyDocuments'))
+New-Variable -Name PsWindowsModulePath -Option ReadOnly -Scope Script -Value "$script:PsWindowsUserDocuments\WindowsPowerShell\Modules"
+New-Variable -Name PsWindowsCoreModulePath -Option ReadOnly -Scope Script -Value "$script:PsWindowsUserDocuments\PowerShell\Modules"
 New-Variable -Name PsLinuxCoreModulePath -Option ReadOnly -Scope Script -Value '/usr/local/share/powershell/Modules/'
 
 New-Variable -Name CacheFileName -Option ReadOnly -Scope Script -Value 'PSModuleCache.Datas.xml'
@@ -744,10 +746,12 @@ function Get-ModuleSavePath {
 
    if ($env:RUNNER_OS -eq 'Windows') {
       if ('powershell' -in $Shells) {
+         $null = New-Item -ItemType Directory -Path $script:PsWindowsModulePath -Force
          Write-Output $script:PsWindowsModulePath
       }
 
       if ('pwsh' -in $Shells) {
+         $null = New-Item -ItemType Directory -Path $script:PsWindowsCoreModulePath -Force
          Write-Output $script:PsWindowsCoreModulePath
       }
 

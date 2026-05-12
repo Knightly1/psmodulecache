@@ -6,7 +6,7 @@ If you're using GitHub Actions to test projects that rely on PowerShell modules 
 It is possible to configure a cache with an automatic update, the module search can target in PSGallery or other PSRepositories requiring or not credential.
 
 > **Warning**
-> GitHub will [deprecate](https://github.blog/changelog/2022-10-11-github-actions-deprecating-save-state-and-set-output-commands/) all versions of this Action earlier than v5.1 on June 1, 2023. It is recommended that you update all of your workflows now to use psmodulecache@v5.1 or greater.
+> GitHub has [retired the cache service](https://github.blog/changelog/2024-12-05-notice-of-upcoming-releases-and-breaking-changes-for-github-actions/) used by all versions of this Action earlier than v6.3. It is recommended that you update all of your workflows now to use psmodulecache@v6.3 or greater.
 
 ## Table of Contents
 
@@ -98,8 +98,8 @@ A module name can be prefixed with a repository name separated by a backslash. *
   Duplicate shell names are silently removed and therefore do not generate an error.
   The use of shell names allows to configure the installation path of the module :
 
-  * For Windows Powershell : _$env:ProgramFiles\WindowsPowerShell\Modules_
-  * For Powershell Core (under Windows) : _$env:ProgramFiles\PowerShell\Modules_
+  * For Windows Powershell : _$HOME\Documents\WindowsPowerShell\Modules_ (current-user scope, no admin required)
+  * For Powershell Core (under Windows) : _$HOME\Documents\PowerShell\Modules_ (current-user scope, no admin required)
   * For Powerhsell Core (under Linux or MacOS) : _/usr/local/share/powershell/Modules/_
 
 * `updatable` - Triggers, on each execution of the action, an update for the module names that request it. Defaults to false.

@@ -2,6 +2,14 @@
 
 ## Release Notes
 
+### v6.3
+
+* Upgrade to actions/cache v5.0.5. v5 runs on the Node.js 24 runtime and requires a minimum Actions Runner version of 2.327.1 (GitHub-hosted runners meet this; self-hosted runners may need to be updated).
+* Switch the Windows module save path to the current-user scope so the action no longer requires Administrator privileges:
+  * Windows PowerShell: `$HOME\Documents\WindowsPowerShell\Modules` (was `$env:ProgramFiles\WindowsPowerShell\Modules`)
+  * PowerShell Core on Windows: `$HOME\Documents\PowerShell\Modules` (was `$env:ProgramFiles\PowerShell\Modules`)
+  The save directories are created on demand if they do not already exist.
+
 ### v6.2.1
 Upgrade to actions/cache v4.2.0. Thanks to David Gardiner (flcdrg)
 
