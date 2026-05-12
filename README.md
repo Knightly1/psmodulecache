@@ -32,10 +32,12 @@ Just copy the code below and modify the line **`modules-to-cache: PSFramework, P
 
 ```yaml
     - name: Install and cache PowerShell modules
-      uses: potatoqualitee/psmodulecache@v6.0
+      uses: Knightly1/psmodulecache@v6.3
       with:
         modules-to-cache: PSFramework, PoshRSJob, dbatools
 ```
+
+_The `@v6` tag is a moving major-version tag that always points at the latest `v6.x` release, so pinning to `@v6` opts you in to non-breaking updates. Pin to a specific tag like `@v6.3` if you want an immutable version._
 
 _PSModuleCache returns the newest version of a module if no parameters are used that limit the version._
 
@@ -43,7 +45,7 @@ If you need to use `RequiredVersion`, add a colon then the version: **`modules-t
 
 ```yaml
     - name: Install and cache PowerShell modules
-      uses: potatoqualitee/psmodulecache@v6.0
+      uses: Knightly1/psmodulecache@v6.3
       with:
         modules-to-cache: PSFramework, dbatools:1.1.0
 ```
@@ -54,7 +56,7 @@ In this case set the updatable parameter to true.
 
 ```yaml
     - name: Install and cache PowerShell modules
-      uses: potatoqualitee/psmodulecache@v6.0
+      uses: Knightly1/psmodulecache@v6.3
       with:
         modules-to-cache: PSFramework,Pester::, dbatools:1.1.0
         updatable: true
@@ -64,7 +66,7 @@ If you need to install a prerelease, use the `modules-to-cache-prerelease` param
 
 ```yaml
     - name: Install and cache PowerShell modules
-      uses: potatoqualitee/psmodulecache@v6.0
+      uses: Knightly1/psmodulecache@v6.3
       with:
         modules-to-cache: PSFramework,Pester:4.10.1, dbatools:1.1.0
         modules-to-cache-prerelease: PnP.PowerShell:1.11.44-nightly
@@ -124,7 +126,7 @@ To declare PsRepositories again, you must save them before calling the 'Cache' s
 
       - name: Cache modules
         id: psmodulecache
-        uses: potatoqualitee/psmodulecache@v6.0
+        uses: Knightly1/psmodulecache@v6.3
         with:
            modules-to-cache: InvokeBuild,OptimizationRules
            ....
@@ -140,7 +142,7 @@ The use of the following syntax will be necessary to specify from which reposito
 ```yml
       - name: Cache modules
         id: psmodulecache
-        uses: potatoqualitee/psmodulecache@v6.0
+        uses: Knightly1/psmodulecache@v6.3
         with:
            modules-to-cache: InvokeBuild,OttoMatt\OptimizationRules
            ....
@@ -301,7 +303,7 @@ jobs:
     - uses: actions/checkout@v4.1.0
     - name: Install and cache PowerShell modules
       id: psmodulecache
-      uses: potatoqualitee/psmodulecache@v6.0
+      uses: Knightly1/psmodulecache@v6.3
       with:
         modules-to-cache: PSFramework, PoshRSJob
     - name: Show that the Action works
@@ -326,7 +328,7 @@ jobs:
     - uses: actions/checkout@v4.1.0
     - name: Install and cache PowerShell modules
       id: psmodulecache
-      uses: potatoqualitee/psmodulecache@v6.0
+      uses: Knightly1/psmodulecache@v6.3
       with:
         modules-to-cache: PSFramework, PoshRSJob
     - name: Show that the Action works
@@ -352,7 +354,7 @@ jobs:
       - uses: actions/checkout@v4.1.0
       - name: Install and cache PowerShell modules
         id: psmodulecache
-        uses: potatoqualitee/psmodulecache@v6.0
+        uses: Knightly1/psmodulecache@v6.3
         with:
           modules-to-cache: PoshRSJob, dbatools
           shell: powershell, pwsh
@@ -384,7 +386,7 @@ jobs:
       - uses: actions/checkout@v4.1.0
       - name: Install a module with a required version
         id: psmodulecache
-        uses: potatoqualitee/psmodulecache@v6.0
+        uses: Knightly1/psmodulecache@v6.3
         with:
           modules-to-cache: dbatools:1.0.0
           shell: powershell
@@ -409,7 +411,7 @@ jobs:
       - uses: actions/checkout@v4.1.0
       - name: Install a module with a required version
         id: psmodulecache
-        uses: potatoqualitee/psmodulecache@v6.0
+        uses: Knightly1/psmodulecache@v6.3
         with:
           modules-to-cache: "dbatools::"
           shell: pwsh
@@ -435,7 +437,7 @@ jobs:
     - uses: actions/checkout@v4.1.0
     - name: Install and cache PowerShell modules
       id: psmodulecache
-      uses: potatoqualitee/psmodulecache@v6.0
+      uses: Knightly1/psmodulecache@v6.3
       with:
         modules-to-cache: dbatools::,Pester:5.3.3, PSScriptAnalyzer
         shell: powershell
@@ -495,7 +497,7 @@ If a module requires acceptance of a license, it is automatically accepted.
 
 ```yaml
     - name: Known issue
-      uses: potatoqualitee/psmodulecache@v6.0
+      uses: Knightly1/psmodulecache@v6.3
       with:
         modules-to-cache: Pester:5.3.0
         modules-to-cache-prerelease: Pester:5.3.0-beta1
@@ -507,7 +509,7 @@ The following setting can also produce the same effect (we assume that at least 
 
 ```yaml
     - name: Known issue
-      uses: potatoqualitee/psmodulecache@v6.0
+      uses: Knightly1/psmodulecache@v6.3
       with:
         modules-to-cache: "WipModule::"
         modules-to-cache-prerelease: WipModule:2.0.0-beta
@@ -519,7 +521,7 @@ If we authorize the configuration with the same module of different version but 
 
 ```yaml
     - name: Known issue
-      uses: potatoqualitee/psmodulecache@v6.0
+      uses: Knightly1/psmodulecache@v6.3
       with:
         modules-to-cache: ProdStableRepository\MyModule:1.0.0
         modules-to-cache-prerelease: "DevPrereleaseRepository\MyModule::"
@@ -529,7 +531,7 @@ we implicitly authorize the following case:
 
 ```yaml
     - name: Known issue
-      uses: potatoqualitee/psmodulecache@v6.0
+      uses: Knightly1/psmodulecache@v6.3
       with:
         modules-to-cache: PSModuleCache\Duplicate,PSGallery\string
 ```
